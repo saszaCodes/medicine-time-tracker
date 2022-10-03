@@ -1,20 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { SettingsProvider } from "./contexts/SettingsContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import { TimeTrackerProvider } from "./contexts/TimeTrackerContext";
+import { MainNavigator } from "./navigators/MainNavigator";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SettingsProvider>
+      <TimeTrackerProvider>
+        <ThemeProvider>
+          <MainNavigator />
+        </ThemeProvider>
+      </TimeTrackerProvider>
+    </SettingsProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
