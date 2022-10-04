@@ -1,10 +1,14 @@
 import * as TaskManager from "expo-task-manager";
 import * as Notifications from "expo-notifications";
+import { useEffect } from "react";
 
 const HANDLE_NOTIFICATION_TASK = "HANDLE_NOTIFICATION_TASK";
 
 export const useNotifications = () => {
-  4;
+  // TODO: should I remove notification handlers when component is unmounted?
+  useEffect(() => {
+    setupNotificationHandlers();
+  }, []);
 
   // TODO: use settings instead of hardcoded values
   const setupNotificationHandlers = () => {
