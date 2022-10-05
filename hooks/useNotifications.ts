@@ -47,6 +47,8 @@ export const useNotifications = () => {
     await Notifications.cancelScheduledNotificationAsync(name);
   };
 
+  const updateNotifications = () => {};
+
   const getNotifications = () => {};
 
   return {

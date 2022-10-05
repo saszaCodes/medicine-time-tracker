@@ -1,10 +1,8 @@
-import { Button, Text, View } from "react-native";
+import { Button, View } from "react-native";
 import { useTimeTrackerContext } from "../../contexts/TimeTrackerContext";
-import { useDatabase } from "../../hooks/useDatabase";
 
 export const WelcomeScreen = () => {
   const { addTracker } = useTimeTrackerContext();
-  const { getAllEntries, checkIfEntryExists } = useDatabase();
 
   return (
     <View>
@@ -19,14 +17,6 @@ export const WelcomeScreen = () => {
           });
         }}
         title="Schedule Tracker 1"
-      />
-      <Button
-        onPress={() =>
-          checkIfEntryExists("TEST", (entryExists) =>
-            entryExists ? console.log(true) : console.log(false)
-          )
-        }
-        title="Read DB"
       />
     </View>
   );

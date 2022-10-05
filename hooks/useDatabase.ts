@@ -1,6 +1,7 @@
 import * as SQLite from "expo-sqlite";
+import { SQLResultSet } from "expo-sqlite";
 import { useEffect, useState } from "react";
-import { Tracker } from "../contexts/TimeTrackerContext";
+import { Tracker, Trackers } from "../contexts/TimeTrackerContext";
 
 const DB_NAME = "TIME_TRACKERS_DB";
 const TABLE_NAME = "TIME_TRACKERS_TABLE";
@@ -12,6 +13,20 @@ const DB_REMINDERS_COL = "REMINDERS";
 type DbEntry = Tracker;
 
 // TODO: move SQL queries to a separate file
+
+const parseResultsToObj = (results: SQLResultSet) => {
+  const parsedResults: Tracker[] = [];
+  results.rows._array.forEach((result) => {
+    const name = result[DB_TRACKER_NAME_COL];
+    const payload: Tracker["payload"] = {
+      description: result[DB_DESCRIPTION_COL],
+      finishTime: result[DB_FINISH_TIME_COL],
+      reminders: result[DB_REMINDERS_COL],
+    };
+    parsedResults.push({ name, payload });
+  });
+  return parsedResults;
+};
 
 export const useDatabase = () => {
   const [db, setDb] = useState<SQLite.WebSQLDatabase>();
@@ -26,7 +41,7 @@ export const useDatabase = () => {
         undefined,
         (transaction, error) => {
           console.warn("Table already exists, not creating a new one");
-          console.log(error);
+          console.warn(error);
           return !!error;
         }
       );
@@ -57,7 +72,7 @@ export const useDatabase = () => {
     );
   };
 
-  const removeEntry = (name: DbEntry["name"]) => {
+  const removeEntry = (name: DbEntry["name"], callback?: () => void) => {
     const SQLStatement = `DELETE FROM ${TABLE_NAME} WHERE ${DB_TRACKER_NAME_COL} = '${name}'`;
     // TODO: handle success and error
     db?.transaction(
@@ -68,13 +83,16 @@ export const useDatabase = () => {
         console.warn(`Delete entry ${name}: FAILURE\n${error}`);
         return !!error;
       },
-      () => console.log(`Delete entry ${name}: SUCCESS`)
+      () => {
+        console.log(`Delete entry ${name}: SUCCESS`);
+        callback?.();
+      }
     );
   };
 
   const updateEntry = () => {};
 
-  const getAllEntries = (callback?: (results: SQLite.SQLResultSet) => void) => {
+  const getAllEntries = (callback?: (results: Trackers) => void) => {
     const SQLStatement = `SELECT * FROM ${TABLE_NAME}`;
     db?.readTransaction((transaction) => {
       transaction.executeSql(
@@ -82,7 +100,8 @@ export const useDatabase = () => {
         undefined,
         (transaction, resultSet) => {
           console.log("Select all entries: SUCCESS");
-          callback?.(resultSet);
+          const parsedResults = parseResultsToObj(resultSet);
+          callback?.(parsedResults);
         },
         (transaction, error) => {
           console.warn(`Select all entries: FAILURE\n${error}`);
@@ -94,7 +113,7 @@ export const useDatabase = () => {
 
   const getEntry = (
     name: DbEntry["name"],
-    callback?: (results: SQLite.SQLResultSet) => void
+    callback?: (results: Tracker) => void
   ) => {
     const SQLStatement = `SELECT * FROM ${TABLE_NAME} WHERE ${DB_TRACKER_NAME_COL}='${name}'`;
     db?.readTransaction((transaction) => {
@@ -103,7 +122,8 @@ export const useDatabase = () => {
         undefined,
         (transaction, resultSet) => {
           console.log(`Select entry ${name}: SUCCESS`);
-          callback?.(resultSet);
+          const parsedResults = parseResultsToObj(resultSet);
+          callback?.(parsedResults[0]);
         },
         (transaction, error) => {
           console.warn(`Select entry ${name}: FAILURE\n${error}`);
@@ -118,9 +138,8 @@ export const useDatabase = () => {
     callback?: (entryExists: boolean) => void
   ) => {
     let entryExists: boolean = false;
-    getEntry(name, (results) => {
-      console.log(results);
-      entryExists = results.rows.length > 0;
+    getEntry(name, (result) => {
+      entryExists = !!result;
       callback?.(entryExists);
     });
   };
