@@ -31,6 +31,7 @@ const parseResultsToObj = (results: SQLResultSet) => {
 export const useDatabase = () => {
   const [db, setDb] = useState<SQLite.WebSQLDatabase>();
 
+  // On first render open (or create) a database, add new table (unless one already exists) and update state
   useEffect(() => {
     const db = SQLite.openDatabase(DB_NAME);
     const SQLStatement = `CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (${DB_TRACKER_NAME_COL} TEXT, ${DB_FINISH_TIME_COL} INTEGER, ${DB_DESCRIPTION_COL} TEXT, ${DB_REMINDERS_COL} NULL)`;
@@ -49,9 +50,13 @@ export const useDatabase = () => {
     setDb(db);
   }, []);
 
-  const addEntry = ({ name, payload }: DbEntry) => {
+  // Add new entry
+  const addEntry = (entry: Tracker, callback?: () => void) => {
+    // Extract data from argument
+    const { name, payload } = entry;
     const { finishTime, description, reminders } = payload;
     // TODO: make the statement more readable
+    // Define SQL
     const SQLStatement = `INSERT INTO ${TABLE_NAME} (${DB_TRACKER_NAME_COL}, ${DB_FINISH_TIME_COL}${
       description ? `, ${DB_DESCRIPTION_COL}` : ""
     }${reminders ? `, ${DB_REMINDERS_COL}` : ""}) VALUES ('${name}', ${
@@ -60,6 +65,7 @@ export const useDatabase = () => {
       reminders ? `, ${reminders}` : ""
     })`;
     // TODO: handle success and error
+    // Execute SQL and call callback function on success
     db?.transaction(
       (transaction) => {
         transaction.executeSql(SQLStatement);
@@ -68,13 +74,19 @@ export const useDatabase = () => {
         console.warn(`Add entry ${name}: FAILURE\n${error}`);
         return !!error;
       },
-      () => console.log(`Add entry ${name}: SUCCESS`)
+      () => {
+        console.log(`Add entry ${name}: SUCCESS`);
+        callback?.();
+      }
     );
   };
 
+  // Remove entry
   const removeEntry = (name: DbEntry["name"], callback?: () => void) => {
+    // Define SQL
     const SQLStatement = `DELETE FROM ${TABLE_NAME} WHERE ${DB_TRACKER_NAME_COL} = '${name}'`;
     // TODO: handle success and error
+    // Execute SQL and call callback function on success
     db?.transaction(
       (transaction) => {
         transaction.executeSql(SQLStatement);
@@ -90,10 +102,14 @@ export const useDatabase = () => {
     );
   };
 
+  // Update entry
   const updateEntry = () => {};
 
+  // Get all entries
   const getAllEntries = (callback?: (results: Trackers) => void) => {
+    // Define SQL
     const SQLStatement = `SELECT * FROM ${TABLE_NAME}`;
+    // Execute SQL and call callback function on success
     db?.readTransaction((transaction) => {
       transaction.executeSql(
         SQLStatement,
@@ -111,11 +127,14 @@ export const useDatabase = () => {
     });
   };
 
+  // Add entry
   const getEntry = (
     name: DbEntry["name"],
     callback?: (results: Tracker) => void
   ) => {
+    // Define SQL
     const SQLStatement = `SELECT * FROM ${TABLE_NAME} WHERE ${DB_TRACKER_NAME_COL}='${name}'`;
+    // Execute SQL and call callback function on success
     db?.readTransaction((transaction) => {
       transaction.executeSql(
         SQLStatement,
@@ -133,15 +152,13 @@ export const useDatabase = () => {
     });
   };
 
+  // Check if entry exists
   const checkIfEntryExists = (
     name: DbEntry["name"],
     callback?: (entryExists: boolean) => void
   ) => {
-    let entryExists: boolean = false;
-    getEntry(name, (result) => {
-      entryExists = !!result;
-      callback?.(entryExists);
-    });
+    // Try to get entry and call callback
+    getEntry(name, (result) => callback?.(!!result));
   };
 
   return {
