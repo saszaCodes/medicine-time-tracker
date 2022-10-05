@@ -1,11 +1,25 @@
-import { Button, View } from "react-native";
+import { useCallback } from "react";
+import { Button, View, Text } from "react-native";
 import { useTimeTrackerContext } from "../../contexts/TimeTrackerContext";
+import { parseFinishTime } from "../../utils/parseFinishTimeToFinishDate";
 
 export const WelcomeScreen = () => {
-  const { addTracker } = useTimeTrackerContext();
+  const { addTracker, trackers } = useTimeTrackerContext();
+
+  const generateTrackers = useCallback(() => {
+    return trackers.map((tracker) => (
+      <View key={tracker.name}>
+        <Text>{tracker.name}</Text>
+        <Text>{parseFinishTime(tracker.payload.finishTime, "date")}</Text>
+        <Text>{tracker.payload.description}</Text>
+        <Text>{tracker.payload.reminders}</Text>
+      </View>
+    ));
+  }, []);
 
   return (
     <View>
+      {generateTrackers()}
       <Button
         onPress={async () => {
           addTracker({
