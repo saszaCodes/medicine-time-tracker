@@ -8,12 +8,14 @@ import {
 } from "react";
 import { useDatabase } from "../hooks/useDatabase";
 import { useNotifications } from "../hooks/useNotifications";
+import { parseFinishTime } from "../utils/parseFinishTime";
 
 // TODO: fill types
 type TimeTrackerContextType = {
   addTracker: (tracker: Tracker) => void;
   removeTracker: (name: Tracker["name"]) => void;
   updateTracker: (tracker: Tracker) => void;
+  trackers: Trackers;
 };
 
 const TimeTrackerContext = createContext<TimeTrackerContextType | null>(null);
@@ -48,11 +50,9 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
     // Extract data from argument
     const { name, payload } = newTracker;
     const { finishTime, description } = payload;
-    const { type, value } = finishTime;
     // Define triggerTime and finishDate depending on type of the new tracker
-    const triggerTime =
-      type === "date" ? (value - Date.now()) / 1000 : value / 1000;
-    const finishDate = type === "date" ? value : Date.now() + value;
+    const triggerTime = parseFinishTime(finishTime, "msFromNow") / 1000;
+    const finishDate = parseFinishTime(finishTime, "date");
     checkIfEntryExists(name, (exists) => {
       // Break and inform the user if entry already exists
       if (exists)
@@ -104,6 +104,7 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
     addTracker,
     removeTracker,
     updateTracker,
+    trackers,
   };
 
   return (
