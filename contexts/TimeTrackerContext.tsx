@@ -8,7 +8,7 @@ import {
 } from "react";
 import { useDatabase } from "../hooks/useDatabase";
 import { useNotifications } from "../hooks/useNotifications";
-import { parseFinishTime } from "../utils/parseFinishTimeToFinishDate";
+import { parseFinishTime } from "../utils/parseFinishTime";
 
 // TODO: fill types
 type TimeTrackerContextType = {

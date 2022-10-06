@@ -1,36 +1,29 @@
 import { useCallback } from "react";
 import { Button, View, Text } from "react-native";
 import { useTimeTrackerContext } from "../../contexts/TimeTrackerContext";
-import { parseFinishTime } from "../../utils/parseFinishTimeToFinishDate";
+import { parseFinishTime } from "../../utils/parseFinishTime";
 
-export const WelcomeScreen = () => {
-  const { addTracker, trackers } = useTimeTrackerContext();
+// TODO: fix type
+export const WelcomeScreen = ({ navigation }: any) => {
+  const { trackers } = useTimeTrackerContext();
 
   const generateTrackers = useCallback(() => {
-    return trackers.map((tracker) => (
-      <View key={tracker.name}>
+    return trackers.map((tracker, i) => (
+      <View key={i}>
         <Text>{tracker.name}</Text>
         <Text>{parseFinishTime(tracker.payload.finishTime, "date")}</Text>
         <Text>{tracker.payload.description}</Text>
         <Text>{tracker.payload.reminders}</Text>
       </View>
     ));
-  }, []);
+  }, [trackers]);
 
   return (
     <View>
       {generateTrackers()}
       <Button
-        onPress={async () => {
-          addTracker({
-            name: "TEST2",
-            payload: {
-              finishTime: { type: "timePeriod", value: 1000 },
-              description: "TEST!",
-            },
-          });
-        }}
-        title="Schedule Tracker 1"
+        onPress={() => navigation.navigate("AddTracker")}
+        title="Add new tracker"
       />
     </View>
   );

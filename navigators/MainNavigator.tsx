@@ -12,6 +12,8 @@ export const MainNavigator: FC = () => (
   <NavigationContainer>
     <Drawer.Navigator initialRouteName="Welcome">
       <Drawer.Screen name="Welcome" component={WelcomeScreen} />
+      {/* <Drawer.Screen name="Welcome" component={WelcomeScreen} />
+      <Drawer.Screen name="Welcome" component={WelcomeScreen} /> */}
     </Drawer.Navigator>
   </NavigationContainer>
 );
