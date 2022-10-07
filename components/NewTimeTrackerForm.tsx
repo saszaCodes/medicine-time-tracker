@@ -59,8 +59,6 @@ export const NewTimeTrackerForm = ({
     addTracker(newTracker);
   };
 
-  // TODO: Update form context when user unfocuses the screen
-
   // Extract form data from context if useContextValues is true
   const {
     name,
