@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useDatabase } from "../hooks/useDatabase";
 import { useNotifications } from "../hooks/useNotifications";
+import { Tracker, Trackers } from "../types/types";
 import { parseFinishTime } from "../utils/parseFinishTime";
 
 // TODO: fill types
@@ -23,24 +24,11 @@ type TimeTrackerContextType = {
 
 const TimeTrackerContext = createContext<TimeTrackerContextType | null>(null);
 
-export type Tracker = {
-  name: string;
-  payload: {
-    description?: string;
-    finishTime: { type: "date" | "timePeriod"; value: number };
-    reminders?: number;
-  };
-};
-
-export type Trackers = Tracker[];
-
 const initialTrackerFormData: Tracker = {
   name: "",
-  payload: {
-    finishTime: { type: "timePeriod", value: 0 },
-    description: "",
-    reminders: 0,
-  },
+  finishTime: { type: "timePeriod", value: 0 },
+  description: "",
+  reminders: 0,
 };
 
 // TODO: there should be only one source of truth for all APIs used here. maybe file saved
@@ -67,8 +55,7 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
   // Add new tracker
   const addTracker = (newTracker: Tracker) => {
     // Extract data from argument
-    const { name, payload } = newTracker;
-    const { finishTime, description } = payload;
+    const { name, finishTime, description } = newTracker;
     // Define triggerTime and finishDate depending on type of the new tracker
     const triggerTime = parseFinishTime(finishTime, "msFromNow") / 1000;
     const finishDate = parseFinishTime(finishTime, "date");
@@ -81,11 +68,8 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
       // Otherwise, add entry to db
       addEntry(
         {
-          name,
-          payload: {
-            ...payload,
-            finishTime: { type: "date", value: finishDate },
-          },
+          ...newTracker,
+          finishTime: { type: "date", value: finishDate },
         },
         // On success schedule notification and update state
         () => {

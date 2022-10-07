@@ -1,26 +1,25 @@
 import { useForm, Controller, FieldValues } from "react-hook-form";
 import { Button } from "react-native";
-import { Tracker, useTimeTrackerContext } from "../contexts/TimeTrackerContext";
+import { useTimeTrackerContext } from "../contexts/TimeTrackerContext";
+import { Tracker } from "../types/types";
 import { Picklist, TextInput } from "./FormElements";
 
 // TODO: get rid of 'payload' string in resulting union
 type NewTimeTrackerFormProps = {
   useContextValues?: boolean;
   display?: {
-    [key in keyof Tracker | keyof Tracker["payload"]]?: boolean | string;
+    [key in keyof Tracker]?: boolean | string;
   };
 };
 
 const parseFormValuesToTracker = (values: FieldValues) => ({
   name: values.name,
-  payload: {
-    description: values.description,
-    finishTime: {
-      type: values.finishTimeType,
-      value: values.finishTimeValue,
-    },
-    reminders: values.reminders,
+  description: values.description,
+  finishTime: {
+    type: values.finishTimeType,
+    value: values.finishTimeValue,
   },
+  reminders: values.reminders,
 });
 
 // TODO: don't use context values if useContextValues = false
@@ -55,11 +54,9 @@ export const NewTimeTrackerForm = ({
   // Extract form data from context if useContextValues is true
   const {
     name,
-    payload: {
-      description,
-      reminders,
-      finishTime: { type: finishTimeType, value: finishTimeValue },
-    },
+    description,
+    reminders,
+    finishTime: { type: finishTimeType, value: finishTimeValue },
   } = trackerFormData;
 
   //  Return a form consisting of controlled elements
