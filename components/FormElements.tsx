@@ -10,6 +10,7 @@ export const TextInput = (props: TextInputProps) => (
 );
 
 type PicklistPropsType = PickerProps & { options: PickerItemProps[] };
+// type PicklistPropsType = PickerProps;
 export const Picklist = (props: PicklistPropsType) => (
   <Picker {...props}>
     {props.options.map((itemProps, i) => (

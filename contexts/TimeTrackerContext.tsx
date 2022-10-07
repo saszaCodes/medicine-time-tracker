@@ -16,6 +16,8 @@ type TimeTrackerContextType = {
   removeTracker: (name: Tracker["name"]) => void;
   updateTracker: (tracker: Tracker) => void;
   trackers: Trackers;
+  trackerFormData: Tracker;
+  updateTrackerFormData: React.Dispatch<React.SetStateAction<Tracker>>;
 };
 
 const TimeTrackerContext = createContext<TimeTrackerContextType | null>(null);
@@ -31,12 +33,24 @@ export type Tracker = {
 
 export type Trackers = Tracker[];
 
+const initialTrackerFormData: Tracker = {
+  name: "",
+  payload: {
+    finishTime: { type: "timePeriod", value: 0 },
+    description: "",
+    reminders: 0,
+  },
+};
+
 // TODO: there should be only one source of truth for all APIs used here. maybe file saved
 export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
   const { addEntry, checkIfEntryExists, removeEntry, getAllEntries } =
     useDatabase();
   const { scheduleNotification, removeNotification } = useNotifications();
   const [trackers, setTrackers] = useState<Trackers>([]);
+  const [trackerFormData, updateTrackerFormData] = useState<Tracker>(
+    initialTrackerFormData
+  );
 
   // Setup initial state on first render - read database
   useEffect(() => {
@@ -105,6 +119,8 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
     removeTracker,
     updateTracker,
     trackers,
+    trackerFormData,
+    updateTrackerFormData,
   };
 
   return (
