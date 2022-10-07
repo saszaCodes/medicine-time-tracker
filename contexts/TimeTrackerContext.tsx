@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useDatabase } from "../hooks/useDatabase";
 import { useNotifications } from "../hooks/useNotifications";
+import { Tracker, Trackers } from "../types/types";
 import { parseFinishTime } from "../utils/parseFinishTime";
 
 // TODO: fill types
@@ -16,20 +17,19 @@ type TimeTrackerContextType = {
   removeTracker: (name: Tracker["name"]) => void;
   updateTracker: (tracker: Tracker) => void;
   trackers: Trackers;
+  trackerFormData: Tracker;
+  updateTrackerFormData: React.Dispatch<React.SetStateAction<Tracker>>;
+  resetTrackerFormData: () => void;
 };
 
 const TimeTrackerContext = createContext<TimeTrackerContextType | null>(null);
 
-export type Tracker = {
-  name: string;
-  payload: {
-    description?: string;
-    finishTime: { type: "date" | "timePeriod"; value: number };
-    reminders?: number;
-  };
+const initialTrackerFormData: Tracker = {
+  name: "",
+  finishTime: { type: "timePeriod", value: 0 },
+  description: "",
+  reminders: 0,
 };
-
-export type Trackers = Tracker[];
 
 // TODO: there should be only one source of truth for all APIs used here. maybe file saved
 export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -37,6 +37,13 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
     useDatabase();
   const { scheduleNotification, removeNotification } = useNotifications();
   const [trackers, setTrackers] = useState<Trackers>([]);
+  const [trackerFormData, updateTrackerFormData] = useState<Tracker>(
+    initialTrackerFormData
+  );
+
+  // Reset state storing form data to initial state
+  const resetTrackerFormData = () =>
+    updateTrackerFormData(initialTrackerFormData);
 
   // Setup initial state on first render - read database
   useEffect(() => {
@@ -48,8 +55,7 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
   // Add new tracker
   const addTracker = (newTracker: Tracker) => {
     // Extract data from argument
-    const { name, payload } = newTracker;
-    const { finishTime, description } = payload;
+    const { name, finishTime, description } = newTracker;
     // Define triggerTime and finishDate depending on type of the new tracker
     const triggerTime = parseFinishTime(finishTime, "msFromNow") / 1000;
     const finishDate = parseFinishTime(finishTime, "date");
@@ -62,11 +68,8 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
       // Otherwise, add entry to db
       addEntry(
         {
-          name,
-          payload: {
-            ...payload,
-            finishTime: { type: "date", value: finishDate },
-          },
+          ...newTracker,
+          finishTime: { type: "date", value: finishDate },
         },
         // On success schedule notification and update state
         () => {
@@ -105,6 +108,9 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
     removeTracker,
     updateTracker,
     trackers,
+    trackerFormData,
+    updateTrackerFormData,
+    resetTrackerFormData,
   };
 
   return (

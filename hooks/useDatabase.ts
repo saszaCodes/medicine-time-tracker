@@ -1,7 +1,7 @@
 import * as SQLite from "expo-sqlite";
 import { SQLResultSet } from "expo-sqlite";
 import { useEffect, useState } from "react";
-import { Tracker, Trackers } from "../contexts/TimeTrackerContext";
+import { Tracker, Trackers } from "../types/types";
 
 const DB_NAME = "TIME_TRACKERS_DB";
 const TABLE_NAME = "TIME_TRACKERS_TABLE";
@@ -10,6 +10,7 @@ const DB_FINISH_TIME_COL = "FINISH_TIME";
 const DB_DESCRIPTION_COL = "DESCRIPTION";
 const DB_REMINDERS_COL = "REMINDERS";
 
+// TODO: clean up the confustion with DbEntry and Tracker types
 type DbEntry = Tracker;
 
 // TODO: move SQL queries to a separate file
@@ -17,13 +18,12 @@ type DbEntry = Tracker;
 const parseResultsToObj = (results: SQLResultSet) => {
   const parsedResults: Tracker[] = [];
   results.rows._array.forEach((result) => {
-    const name = result[DB_TRACKER_NAME_COL];
-    const payload: Tracker["payload"] = {
+    parsedResults.push({
+      name: result[DB_TRACKER_NAME_COL],
       description: result[DB_DESCRIPTION_COL],
       finishTime: { type: "date", value: result[DB_FINISH_TIME_COL] },
       reminders: result[DB_REMINDERS_COL],
-    };
-    parsedResults.push({ name, payload });
+    });
   });
   return parsedResults;
 };
@@ -56,8 +56,7 @@ export const useDatabase = () => {
   // Add new entry
   const addEntry = (entry: Tracker, callback?: () => void) => {
     // Extract data from argument
-    const { name, payload } = entry;
-    const { finishTime, description, reminders } = payload;
+    const { name, finishTime, description, reminders } = entry;
     // TODO: make the statement more readable
     // Define SQL
     const SQLStatement = `INSERT INTO ${TABLE_NAME} (${DB_TRACKER_NAME_COL}, ${DB_FINISH_TIME_COL}${
