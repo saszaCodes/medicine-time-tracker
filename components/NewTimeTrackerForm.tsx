@@ -1,4 +1,4 @@
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, FieldValues } from "react-hook-form";
 import { Button } from "react-native";
 import { Tracker, useTimeTrackerContext } from "../contexts/TimeTrackerContext";
 import { Picklist, TextInput } from "./FormElements";
@@ -11,6 +11,18 @@ type NewTimeTrackerFormProps = {
   };
 };
 
+const parseFormValuesToTracker = (values: FieldValues) => ({
+  name: values.name,
+  payload: {
+    description: values.description,
+    finishTime: {
+      type: values.finishTimeType,
+      value: values.finishTimeValue,
+    },
+    reminders: values.reminders,
+  },
+});
+
 // TODO: don't use context values if useContextValues = false
 export const NewTimeTrackerForm = ({
   useContextValues = true,
@@ -22,29 +34,25 @@ export const NewTimeTrackerForm = ({
   },
 }: NewTimeTrackerFormProps) => {
   const { control, handleSubmit, getValues } = useForm();
-  const { addTracker, trackerFormData, updateTrackerFormData } =
-    useTimeTrackerContext();
+  const {
+    addTracker,
+    trackerFormData,
+    updateTrackerFormData,
+    resetTrackerFormData,
+  } = useTimeTrackerContext();
 
-  // TODO: onSubmit clear context and define a new tracker
+  // On submit clear form context and add a new tracker
   const onSubmit = () => {
     console.log("Form submitted");
     const values = getValues();
-    console.log(values);
-    const newTracker = {
-      name: values.name,
-      payload: {
-        description: values.description,
-        finishTime: {
-          type: values.finishTimeType,
-          value: values.finishTimeValue,
-        },
-        reminders: values.reminders,
-      },
-    };
-    updateTrackerFormData(newTracker);
+    const newTracker = parseFormValuesToTracker(values);
+    resetTrackerFormData();
     addTracker(newTracker);
   };
 
+  // TODO: Update form context when user unfocuses the screen
+
+  // Extract form data from context if useContextValues is true
   const {
     name,
     payload: {
@@ -54,6 +62,7 @@ export const NewTimeTrackerForm = ({
     },
   } = trackerFormData;
 
+  //  Return a form consisting of controlled elements
   return (
     <>
       {display.name && (

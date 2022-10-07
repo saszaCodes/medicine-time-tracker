@@ -18,6 +18,7 @@ type TimeTrackerContextType = {
   trackers: Trackers;
   trackerFormData: Tracker;
   updateTrackerFormData: React.Dispatch<React.SetStateAction<Tracker>>;
+  resetTrackerFormData: () => void;
 };
 
 const TimeTrackerContext = createContext<TimeTrackerContextType | null>(null);
@@ -51,6 +52,10 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
   const [trackerFormData, updateTrackerFormData] = useState<Tracker>(
     initialTrackerFormData
   );
+
+  // Reset state storing form data to initial state
+  const resetTrackerFormData = () =>
+    updateTrackerFormData(initialTrackerFormData);
 
   // Setup initial state on first render - read database
   useEffect(() => {
@@ -121,6 +126,7 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
     trackers,
     trackerFormData,
     updateTrackerFormData,
+    resetTrackerFormData,
   };
 
   return (
