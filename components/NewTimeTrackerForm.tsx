@@ -1,3 +1,4 @@
+import { useFocusEffect } from "@react-navigation/native";
 import { useForm, Controller, FieldValues } from "react-hook-form";
 import { Button } from "react-native";
 import { useTimeTrackerContext } from "../contexts/TimeTrackerContext";
@@ -39,6 +40,15 @@ export const NewTimeTrackerForm = ({
     updateTrackerFormData,
     resetTrackerFormData,
   } = useTimeTrackerContext();
+
+  useFocusEffect(() => {
+    // When form goes out of focus, update the context
+    return () => {
+      const values = getValues();
+      const newTracker = parseFormValuesToTracker(values);
+      updateTrackerFormData(newTracker);
+    };
+  });
 
   // On submit clear form context and add a new tracker
   const onSubmit = () => {

@@ -6,3 +6,9 @@ export type Tracker = {
 };
 
 export type Trackers = Tracker[];
+
+export type MainNavigatorParams = {
+  Welcome: undefined;
+  AddTracker: undefined;
+  Settings: undefined;
+};

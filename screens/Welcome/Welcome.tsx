@@ -1,19 +1,23 @@
+import { DrawerScreenProps } from "@react-navigation/drawer";
 import { useCallback } from "react";
 import { Button, View, Text } from "react-native";
 import { useTimeTrackerContext } from "../../contexts/TimeTrackerContext";
+import { MainNavigatorParams } from "../../types/types";
 import { parseFinishTime } from "../../utils/parseFinishTime";
 
 // TODO: fix type
-export const WelcomeScreen = ({ navigation }: any) => {
+export const WelcomeScreen = ({
+  navigation,
+}: DrawerScreenProps<MainNavigatorParams>) => {
   const { trackers } = useTimeTrackerContext();
 
   const generateTrackers = useCallback(() => {
     return trackers.map((tracker, i) => (
       <View key={i}>
         <Text>{tracker.name}</Text>
-        <Text>{parseFinishTime(tracker.payload.finishTime, "date")}</Text>
-        <Text>{tracker.payload.description}</Text>
-        <Text>{tracker.payload.reminders}</Text>
+        <Text>{parseFinishTime(tracker.finishTime, "date")}</Text>
+        <Text>{tracker.description}</Text>
+        <Text>{tracker.reminders}</Text>
       </View>
     ));
   }, [trackers]);
