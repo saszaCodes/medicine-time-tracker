@@ -1,7 +1,23 @@
+export type FinishTimeType = "date" | "timePeriod";
+
+export type TimePeriod = "minute(s)" | "hour(s)" | "day(s)" | "week(s)";
+
 export type Tracker = {
   name: string;
   description?: string;
-  finishTime: { type: "date" | "timePeriod"; value: number };
+  finishDate: number;
+  reminders?: number;
+};
+
+export type TrackerFormInput = {
+  name: string;
+  description?: string;
+  // TODO: use discriminatory union to discern whether period should be required
+  finishTime: {
+    type: FinishTimeType;
+    period: TimePeriod;
+    value: number;
+  };
   reminders?: number;
 };
 

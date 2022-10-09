@@ -3,7 +3,6 @@ import { useCallback } from "react";
 import { Button, View, Text } from "react-native";
 import { useTimeTrackerContext } from "../../contexts/TimeTrackerContext";
 import { MainNavigatorParams } from "../../types/types";
-import { parseFinishTime } from "../../utils/parseFinishTime";
 
 // TODO: fix type
 export const WelcomeScreen = ({
@@ -15,7 +14,7 @@ export const WelcomeScreen = ({
     return trackers.map((tracker, i) => (
       <View key={i}>
         <Text>{tracker.name}</Text>
-        <Text>{parseFinishTime(tracker.finishTime, "date")}</Text>
+        <Text>{tracker.finishDate}</Text>
         <Text>{tracker.description}</Text>
         <Text>{tracker.reminders}</Text>
       </View>

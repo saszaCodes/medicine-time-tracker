@@ -9,9 +9,13 @@ export const TextInput = (props: TextInputProps) => (
   <NativeTextInput {...props} />
 );
 
-type PicklistPropsType = PickerProps & { options: PickerItemProps[] };
+type PicklistPropsType<T> = PickerProps & {
+  options: (Omit<PickerItemProps, "value"> & { value: T })[];
+};
 // type PicklistPropsType = PickerProps;
-export const Picklist = (props: PicklistPropsType) => (
+export const Picklist: <T = any>(props: PicklistPropsType<T>) => JSX.Element = (
+  props
+) => (
   <Picker {...props}>
     {props.options.map((itemProps, i) => (
       <Picker.Item key={i} {...itemProps} />

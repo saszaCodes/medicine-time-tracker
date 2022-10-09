@@ -15,13 +15,14 @@ type DbEntry = Tracker;
 
 // TODO: move SQL queries to a separate file
 
-const parseResultsToObj = (results: SQLResultSet) => {
+const parseResultsToTracker = (results: SQLResultSet) => {
   const parsedResults: Tracker[] = [];
   results.rows._array.forEach((result) => {
     parsedResults.push({
       name: result[DB_TRACKER_NAME_COL],
       description: result[DB_DESCRIPTION_COL],
-      finishTime: { type: "date", value: result[DB_FINISH_TIME_COL] },
+      // TODO: after fixing FinishTime type using discriminatory union, get rid of unnecessary period prop
+      finishDate: result[DB_FINISH_TIME_COL],
       reminders: result[DB_REMINDERS_COL],
     });
   });
@@ -54,18 +55,18 @@ export const useDatabase = () => {
   }, []);
 
   // Add new entry
-  const addEntry = (entry: Tracker, callback?: () => void) => {
+  const addEntry = (tracker: Tracker, callback?: () => void) => {
     // Extract data from argument
-    const { name, finishTime, description, reminders } = entry;
+    const { name, finishDate, description, reminders } = tracker;
     // TODO: make the statement more readable
     // Define SQL
     const SQLStatement = `INSERT INTO ${TABLE_NAME} (${DB_TRACKER_NAME_COL}, ${DB_FINISH_TIME_COL}${
       description ? `, ${DB_DESCRIPTION_COL}` : ""
-    }${reminders ? `, ${DB_REMINDERS_COL}` : ""}) VALUES ('${name}', ${
-      finishTime.value
-    }${description ? `, '${description}'` : ""}${
-      reminders ? `, ${reminders}` : ""
-    })`;
+    }${
+      reminders ? `, ${DB_REMINDERS_COL}` : ""
+    }) VALUES ('${name}', ${finishDate}${
+      description ? `, '${description}'` : ""
+    }${reminders ? `, ${reminders}` : ""})`;
     // TODO: handle success and error
     // Execute SQL and call callback function on success
     db.transaction(
@@ -121,7 +122,7 @@ export const useDatabase = () => {
         undefined,
         (transaction, resultSet) => {
           console.log(`Select entry ${name}: SUCCESS`);
-          const parsedResults = parseResultsToObj(resultSet);
+          const parsedResults = parseResultsToTracker(resultSet);
           callback?.(parsedResults[0]);
         },
         (transaction, error) => {
@@ -143,7 +144,7 @@ export const useDatabase = () => {
         undefined,
         (transaction, resultSet) => {
           console.log("Select all entries: SUCCESS");
-          const parsedResults = parseResultsToObj(resultSet);
+          const parsedResults = parseResultsToTracker(resultSet);
           callback?.(parsedResults);
         },
         (transaction, error) => {
