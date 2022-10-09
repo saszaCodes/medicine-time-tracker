@@ -55,8 +55,6 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
   const addTracker = (newTracker: Tracker) => {
     // Extract data from argument
     const { name, finishDate, description } = newTracker;
-    // Define triggerTime (ms from current date)
-    const triggerTime = finishDate - Date.now();
     checkIfEntryExists(name, (exists) => {
       // Break and inform the user if entry already exists
       if (exists)
@@ -70,7 +68,7 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
         () => {
           scheduleNotification(name, {
             content: { body: description },
-            trigger: { seconds: triggerTime },
+            trigger: { date: finishDate },
           });
           setTrackers([...trackers, newTracker]);
         }
