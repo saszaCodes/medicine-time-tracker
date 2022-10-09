@@ -8,8 +8,7 @@ import {
 } from "react";
 import { useDatabase } from "../hooks/useDatabase";
 import { useNotifications } from "../hooks/useNotifications";
-import { Tracker, Trackers } from "../types/types";
-import { parseFinishTime } from "../utils/parseFinishTime";
+import { Tracker, TrackerFormInput, Trackers } from "../types/types";
 
 // TODO: fill types
 type TimeTrackerContextType = {
@@ -17,16 +16,16 @@ type TimeTrackerContextType = {
   removeTracker: (name: Tracker["name"]) => void;
   updateTracker: (tracker: Tracker) => void;
   trackers: Trackers;
-  trackerFormData: Tracker;
-  updateTrackerFormData: React.Dispatch<React.SetStateAction<Tracker>>;
+  trackerFormData: TrackerFormInput;
+  updateTrackerFormData: React.Dispatch<React.SetStateAction<TrackerFormInput>>;
   resetTrackerFormData: () => void;
 };
 
 const TimeTrackerContext = createContext<TimeTrackerContextType | null>(null);
 
-const initialTrackerFormData: Tracker = {
+export const initialTrackerFormData: TrackerFormInput = {
   name: "",
-  finishTime: { type: "timePeriod", value: 0 },
+  finishTime: { type: "timePeriod", period: "day(s)", value: 0 },
   description: "",
   reminders: 0,
 };
@@ -37,7 +36,7 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
     useDatabase();
   const { scheduleNotification, removeNotification } = useNotifications();
   const [trackers, setTrackers] = useState<Trackers>([]);
-  const [trackerFormData, updateTrackerFormData] = useState<Tracker>(
+  const [trackerFormData, updateTrackerFormData] = useState<TrackerFormInput>(
     initialTrackerFormData
   );
 
@@ -55,10 +54,9 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
   // Add new tracker
   const addTracker = (newTracker: Tracker) => {
     // Extract data from argument
-    const { name, finishTime, description } = newTracker;
-    // Define triggerTime and finishDate depending on type of the new tracker
-    const triggerTime = parseFinishTime(finishTime, "msFromNow") / 1000;
-    const finishDate = parseFinishTime(finishTime, "date");
+    const { name, finishDate, description } = newTracker;
+    // Define triggerTime (ms from current date)
+    const triggerTime = finishDate - Date.now();
     checkIfEntryExists(name, (exists) => {
       // Break and inform the user if entry already exists
       if (exists)
@@ -67,10 +65,7 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
         );
       // Otherwise, add entry to db
       addEntry(
-        {
-          ...newTracker,
-          finishTime: { type: "date", value: finishDate },
-        },
+        newTracker,
         // On success schedule notification and update state
         () => {
           scheduleNotification(name, {
