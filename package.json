@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+    "@expo/webpack-config": "^0.17.0",
+    "@react-native-community/datetimepicker": "6.2.0",
     "@react-native-picker/picker": "^2.4.6",
     "@react-navigation/drawer": "^6.5.0",
     "@react-navigation/native": "^6.0.13",

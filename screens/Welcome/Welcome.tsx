@@ -1,6 +1,8 @@
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import { useCallback } from "react";
 import { Button, View, Text } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import { DatePicker } from "../../components/NewTimeTrackerForm/components/DatePicker";
 import { useTimeTrackerContext } from "../../contexts/TimeTrackerContext";
 import { MainNavigatorParams } from "../../types/types";
 
@@ -16,18 +18,17 @@ export const WelcomeScreen = ({
         <Text>{tracker.name}</Text>
         <Text>{tracker.finishDate}</Text>
         <Text>{tracker.description}</Text>
-        <Text>{tracker.reminders}</Text>
       </View>
     ));
   }, [trackers]);
 
   return (
-    <View>
+    <ScrollView>
       {generateTrackers()}
       <Button
         onPress={() => navigation.navigate("AddTracker")}
         title="Add new tracker"
       />
-    </View>
+    </ScrollView>
   );
 };

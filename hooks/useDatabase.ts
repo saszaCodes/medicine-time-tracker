@@ -23,7 +23,7 @@ const parseResultsToTracker = (results: SQLResultSet) => {
       description: result[DB_DESCRIPTION_COL],
       // TODO: after fixing FinishTime type using discriminatory union, get rid of unnecessary period prop
       finishDate: result[DB_FINISH_TIME_COL],
-      reminders: result[DB_REMINDERS_COL],
+      reminders: JSON.parse(result[DB_REMINDERS_COL]),
     });
   });
   return parsedResults;
@@ -34,7 +34,7 @@ export const useDatabase = () => {
 
   // On first render add a new table (unless one already exists)
   useEffect((callback?: () => void) => {
-    const SQLStatement = `CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (${DB_TRACKER_NAME_COL} TEXT, ${DB_FINISH_TIME_COL} INTEGER, ${DB_DESCRIPTION_COL} TEXT, ${DB_REMINDERS_COL} NULL)`;
+    const SQLStatement = `CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (${DB_TRACKER_NAME_COL} TEXT, ${DB_FINISH_TIME_COL} INTEGER, ${DB_DESCRIPTION_COL} TEXT, ${DB_REMINDERS_COL} TEXT)`;
     db.transaction((transaction) => {
       transaction.executeSql(
         SQLStatement,
@@ -66,7 +66,7 @@ export const useDatabase = () => {
       reminders ? `, ${DB_REMINDERS_COL}` : ""
     }) VALUES ('${name}', ${finishDate}${
       description ? `, '${description}'` : ""
-    }${reminders ? `, ${reminders}` : ""})`;
+    }${reminders ? `, ${JSON.stringify(reminders)}` : ""})`;
     // TODO: handle success and error
     // Execute SQL and call callback function on success
     db.transaction(
