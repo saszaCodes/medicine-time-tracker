@@ -1,6 +1,8 @@
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import { useCallback } from "react";
 import { Button, View, Text } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import { reminderOptions } from "../../components/NewTimeTrackerForm/components/Reminders";
 import { useTimeTrackerContext } from "../../contexts/TimeTrackerContext";
 import { MainNavigatorParams } from "../../types/types";
 
@@ -11,23 +13,29 @@ export const WelcomeScreen = ({
   const { trackers } = useTimeTrackerContext();
 
   const generateTrackers = useCallback(() => {
-    return trackers.map((tracker, i) => (
-      <View key={i}>
-        <Text>{tracker.name}</Text>
-        <Text>{tracker.finishDate}</Text>
-        <Text>{tracker.description}</Text>
-        <Text>{tracker.reminders}</Text>
-      </View>
-    ));
+    return trackers.map((tracker, i) => {
+      return (
+        <View key={i}>
+          <Text>{tracker.name}</Text>
+          <Text>{tracker.finishDate}</Text>
+          <Text>{tracker.description}</Text>
+          {tracker.reminders
+            ? tracker.reminders?.map((key) => (
+                <Text>{reminderOptions[key].label}</Text>
+              ))
+            : null}
+        </View>
+      );
+    });
   }, [trackers]);
 
   return (
-    <View>
+    <ScrollView>
       {generateTrackers()}
       <Button
         onPress={() => navigation.navigate("AddTracker")}
         title="Add new tracker"
       />
-    </View>
+    </ScrollView>
   );
 };

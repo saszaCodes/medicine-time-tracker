@@ -6,9 +6,11 @@ import {
   useEffect,
   useState,
 } from "react";
+import { reminderOptions } from "../components/NewTimeTrackerForm/components/Reminders";
 import { useDatabase } from "../hooks/useDatabase";
 import { useNotifications } from "../hooks/useNotifications";
-import { Tracker, TrackerFormInput, Trackers } from "../types/types";
+import { Tracker, Trackers } from "../types/types";
+import { parseTimePeriods } from "../utils/parseTimePeriods";
 
 // TODO: fill types
 type TimeTrackerContextType = {
@@ -16,19 +18,18 @@ type TimeTrackerContextType = {
   removeTracker: (name: Tracker["name"]) => void;
   updateTracker: (tracker: Tracker) => void;
   trackers: Trackers;
-  trackerFormData: TrackerFormInput;
-  updateTrackerFormData: React.Dispatch<React.SetStateAction<TrackerFormInput>>;
-  resetTrackerFormData: () => void;
+  draft: Tracker;
+  updateDraft: React.Dispatch<React.SetStateAction<Tracker>>;
+  clearDraft: () => void;
 };
 
 const TimeTrackerContext = createContext<TimeTrackerContextType | null>(null);
 
-export const initialTrackerFormData: TrackerFormInput = {
-  name: "",
-  finishTime: { type: "timePeriod", period: "day(s)", value: 0 },
-  description: "",
-  reminders: 0,
-};
+export const getInitialTrackerData = () =>
+  ({
+    name: "",
+    finishDate: Date.now() + parseTimePeriods(1, "day(s)", "ms"),
+  } as Tracker);
 
 // TODO: there should be only one source of truth for all APIs used here. maybe file saved
 export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -36,13 +37,10 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
     useDatabase();
   const { scheduleNotification, removeNotification } = useNotifications();
   const [trackers, setTrackers] = useState<Trackers>([]);
-  const [trackerFormData, updateTrackerFormData] = useState<TrackerFormInput>(
-    initialTrackerFormData
-  );
+  const [draft, setDraft] = useState<Tracker>(getInitialTrackerData());
 
   // Reset state storing form data to initial state
-  const resetTrackerFormData = () =>
-    updateTrackerFormData(initialTrackerFormData);
+  const clearDraft = () => setDraft(getInitialTrackerData());
 
   // Setup initial state on first render - read database
   useEffect(() => {
@@ -54,7 +52,7 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
   // Add new tracker
   const addTracker = (newTracker: Tracker) => {
     // Extract data from argument
-    const { name, finishDate, description } = newTracker;
+    const { name, finishDate, description, reminders } = newTracker;
     checkIfEntryExists(name, (exists) => {
       // Break and inform the user if entry already exists
       if (exists)
@@ -70,6 +68,19 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
             content: { body: description },
             trigger: { date: finishDate },
           });
+          reminders?.forEach((key) => {
+            const reminderDate = finishDate - reminderOptions[key].ms;
+            if (reminderDate < Date.now()) return;
+            console.log({
+              now: Date.now(),
+              reminderDate,
+              finishDate,
+            });
+            scheduleNotification(name, {
+              content: { body: description },
+              trigger: { date: reminderDate },
+            });
+          });
           setTrackers([...trackers, newTracker]);
         }
       );
@@ -83,6 +94,7 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
     removeEntry(name, () => {
       // On removal success remove notification and update state
       removeNotification(name);
+      // TODO: remove reminders as well
       const newTrackers = [...trackers];
       const i = newTrackers.findIndex((tracker) => tracker.name === name);
       newTrackers.splice(i, 1);
@@ -101,9 +113,9 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
     removeTracker,
     updateTracker,
     trackers,
-    trackerFormData,
-    updateTrackerFormData,
-    resetTrackerFormData,
+    draft,
+    updateDraft: setDraft,
+    clearDraft,
   };
 
   return (

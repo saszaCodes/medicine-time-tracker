@@ -1,4 +1,4 @@
-import { NewTimeTrackerForm } from "../../components/NewTimeTrackerForm";
+import { NewTimeTrackerForm } from "../../components/NewTimeTrackerForm/NewTimeTrackerForm";
 
 export const AddTrackerScreen = () => {
   return <NewTimeTrackerForm />;
