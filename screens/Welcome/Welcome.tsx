@@ -20,8 +20,8 @@ export const WelcomeScreen = ({
           <Text>{tracker.finishDate}</Text>
           <Text>{tracker.description}</Text>
           {tracker.reminders
-            ? tracker.reminders?.map((key) => (
-                <Text>{reminderOptions[key].label}</Text>
+            ? tracker.reminders?.map((key, i) => (
+                <Text key={i}>{reminderOptions[key].label}</Text>
               ))
             : null}
         </View>
