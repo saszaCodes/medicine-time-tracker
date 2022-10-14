@@ -51,11 +51,8 @@ export const useNotifications = () => {
     await Notifications.cancelScheduledNotificationAsync(name);
   };
 
-  // Update notification
-  const updateNotifications = () => {};
-
   // Get all notifications
-  const getAllNotifications = () => {};
+  const getAllNotifications = Notifications.getAllScheduledNotificationsAsync;
 
   return {
     setupNotificationHandlers,

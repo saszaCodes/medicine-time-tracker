@@ -62,21 +62,16 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
       // Otherwise, add entry to db
       addEntry(
         newTracker,
-        // On success schedule notification and update state
+        // On success schedule notifications for finishDate and reminders and update state
         () => {
           scheduleNotification(name, {
             content: { body: description },
             trigger: { date: finishDate },
           });
-          reminders?.forEach((key) => {
+          reminders?.forEach((key, i) => {
             const reminderDate = finishDate - reminderOptions[key].ms;
             if (reminderDate < Date.now()) return;
-            console.log({
-              now: Date.now(),
-              reminderDate,
-              finishDate,
-            });
-            scheduleNotification(name, {
+            scheduleNotification(`${name}_reminder_${i}`, {
               content: { body: description },
               trigger: { date: reminderDate },
             });
@@ -92,13 +87,13 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
     // TODO: handle errors
     // Try to remove entry
     removeEntry(name, () => {
-      // On removal success remove notification and update state
+      // On removal success remove notification(s) and update state
       removeNotification(name);
-      // TODO: remove reminders as well
-      const newTrackers = [...trackers];
-      const i = newTrackers.findIndex((tracker) => tracker.name === name);
-      newTrackers.splice(i, 1);
-      setTrackers(newTrackers);
+      const tracker = trackers.find((tracker) => tracker.name === name);
+      tracker?.reminders?.forEach((el, i) =>
+        removeNotification(`${name}_reminder_${i}`)
+      );
+      setTrackers(trackers.filter((tracker) => tracker.name !== name));
     });
   };
 
