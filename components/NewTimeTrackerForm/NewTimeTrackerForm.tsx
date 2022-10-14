@@ -9,15 +9,10 @@ import {
 import { Tracker } from "../../types/types";
 import { TextInput } from "../FormElements";
 import { DatePicker } from "./components/DatePicker";
+import { Reminders } from "./components/Reminders";
 
 // Parse values to Tracker
-const parseValues = (values: FieldValues) =>
-  ({
-    name: values.name,
-    finishDate: values.finishDate,
-    description: values.description,
-    reminders: values.reminders,
-  } as Tracker);
+const parseValues = (values: FieldValues) => ({ ...values } as Tracker);
 
 // TODO: use default display in a way that doesn't require specyfi=ying all props if any one is specified
 export const NewTimeTrackerForm = ({
@@ -66,6 +61,7 @@ export const NewTimeTrackerForm = ({
   const onSubmit = () => {
     console.log("Form submitted");
     const values = getValues();
+    console.log(values);
     const newTracker = parseValues(values);
     addTracker(newTracker);
     if (!useContextValues) return;
@@ -110,11 +106,11 @@ export const NewTimeTrackerForm = ({
       )}
       {display.reminders && (
         <Controller
-          rules={{ pattern: /[0-9]+/ }}
           name="reminders"
           control={control}
-          // TODO: pass <Reminders /> to render
-          render={({ field: { value, onChange } }) => <></>}
+          render={({ field: { value, onChange } }) => (
+            <Reminders reminders={value || []} onChange={onChange} />
+          )}
         />
       )}
       {display.finishDate && (
@@ -122,7 +118,6 @@ export const NewTimeTrackerForm = ({
           <Controller
             name="finishDate"
             control={control}
-            rules={{ required: true }}
             render={({ field: { onChange, value } }) => (
               <DatePicker value={value} onChange={onChange} />
             )}

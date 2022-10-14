@@ -1,10 +1,12 @@
+import { ReminderKeys } from "../components/NewTimeTrackerForm/components/Reminders";
+
 export type TimePeriod = "minute(s)" | "hour(s)" | "day(s)" | "week(s)";
 
 export type Tracker = {
   name: string;
   description?: string;
   finishDate: number;
-  reminders?: [{ id: number; timeValue: number; timePeriod: TimePeriod }];
+  reminders?: ReminderKeys;
 };
 
 export type Trackers = Tracker[];

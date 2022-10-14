@@ -66,7 +66,7 @@ export const useDatabase = () => {
       reminders ? `, ${DB_REMINDERS_COL}` : ""
     }) VALUES ('${name}', ${finishDate}${
       description ? `, '${description}'` : ""
-    }${reminders ? `, ${JSON.stringify(reminders)}` : ""})`;
+    }${reminders ? `, '${JSON.stringify(reminders)}'` : ""})`;
     // TODO: handle success and error
     // Execute SQL and call callback function on success
     db.transaction(

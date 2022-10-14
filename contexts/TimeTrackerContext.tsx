@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { reminderOptions } from "../components/NewTimeTrackerForm/components/Reminders";
 import { useDatabase } from "../hooks/useDatabase";
 import { useNotifications } from "../hooks/useNotifications";
 import { Tracker, Trackers } from "../types/types";
@@ -51,7 +52,7 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
   // Add new tracker
   const addTracker = (newTracker: Tracker) => {
     // Extract data from argument
-    const { name, finishDate, description } = newTracker;
+    const { name, finishDate, description, reminders } = newTracker;
     checkIfEntryExists(name, (exists) => {
       // Break and inform the user if entry already exists
       if (exists)
@@ -67,6 +68,19 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
             content: { body: description },
             trigger: { date: finishDate },
           });
+          reminders?.forEach((key) => {
+            const reminderDate = finishDate - reminderOptions[key].ms;
+            if (reminderDate < Date.now()) return;
+            console.log({
+              now: Date.now(),
+              reminderDate,
+              finishDate,
+            });
+            scheduleNotification(name, {
+              content: { body: description },
+              trigger: { date: reminderDate },
+            });
+          });
           setTrackers([...trackers, newTracker]);
         }
       );
@@ -80,6 +94,7 @@ export const TimeTrackerProvider: FC<PropsWithChildren> = ({ children }) => {
     removeEntry(name, () => {
       // On removal success remove notification and update state
       removeNotification(name);
+      // TODO: remove reminders as well
       const newTrackers = [...trackers];
       const i = newTrackers.findIndex((tracker) => tracker.name === name);
       newTrackers.splice(i, 1);
