@@ -52,10 +52,6 @@ export const WelcomeScreen = ({
         startDate: moment().add(1, "days").startOf("day").valueOf(),
         endDate: moment().add(1, "days").endOf("day").valueOf(),
       })}
-      <Button
-        onPress={() => navigation.navigate("AddTracker")}
-        title="Add new tracker"
-      />
     </ScrollView>
   );
 };
