@@ -2,7 +2,6 @@ import { DrawerScreenProps } from "@react-navigation/drawer";
 import { useCallback } from "react";
 import { Button, View, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { reminderOptions } from "../../components/NewTimeTrackerForm/components/Reminders";
 import { useTimeTrackerContext } from "../../contexts/TimeTrackerContext";
 import { MainNavigatorParams, Tracker } from "../../types/types";
 import moment from "moment";
@@ -46,12 +45,6 @@ export const WelcomeScreen = ({
       {generateTrackers({
         startDate: moment().add(1, "days").startOf("day").valueOf(),
         endDate: moment().add(1, "days").endOf("day").valueOf(),
-      })}
-      <Text>Missed</Text>
-      {generateTrackers({
-        startDate: 0,
-        endDate: moment().valueOf(),
-        limit: 5,
       })}
       <Button
         onPress={() => navigation.navigate("AddTracker")}
