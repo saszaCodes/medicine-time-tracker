@@ -1,6 +1,8 @@
-import Checkbox from "expo-checkbox";
+import ExpoCheckbox from "expo-checkbox";
 import { Text, View } from "react-native";
+import styled from "styled-components/native";
 import { parseTimePeriods } from "../../../utils/parseTimePeriods";
+import { FormItemWrapper } from "../../FormElements";
 
 type RemindersProps = {
   initialValue?: ReminderKeys;
@@ -40,6 +42,26 @@ export const reminderOptions = {
 
 const reminderKeys = Object.keys(reminderOptions) as ReminderKeys;
 
+const Checkbox = styled(ExpoCheckbox)`
+  // TODO: fix checkbox fill
+  width: 20px;
+  height: 20px;
+  border-radius: 1000px;
+  border-color: ${({ theme }) => theme.colors.text};
+  margin-right: ${({ theme }) => theme.spacing.m};
+`;
+
+const OptionContainer = styled.View`
+  flex-direction: row;
+  // TODO: remove margin from last element
+  margin-bottom: ${({ theme }) => theme.spacing.mplus};
+  align-items: center;
+`;
+
+const Label = styled.Text`
+  font: ${({ theme }) => theme.fonts.regular};
+`;
+
 export const Reminders = (props: RemindersProps) => {
   const handleValueChange = (key: ReminderKey, newValue: boolean) => {
     if (newValue) props.onChange([...props.reminders, key]);
@@ -53,15 +75,17 @@ export const Reminders = (props: RemindersProps) => {
     reminderKeys.map((key, index) => {
       const { label } = reminderOptions[key];
       return (
-        <View key={index}>
+        <OptionContainer key={index}>
           <Checkbox
             value={props.reminders.includes(key)}
             onValueChange={(value) => handleValueChange(key, value)}
           />
-          <Text>{label}</Text>
-        </View>
+          <Label>{label}</Label>
+        </OptionContainer>
       );
     });
 
-  return <>{generateReminders()}</>;
+  return (
+    <FormItemWrapper label="Reminders">{generateReminders()}</FormItemWrapper>
+  );
 };
