@@ -29,15 +29,9 @@ const IconContainer = styled.View<{ focused?: boolean }>`
 `;
 
 const Title = styled.Text`
-  font: ${({ theme }) => theme.fonts.regular};
+  font: ${({ theme }) => theme.fonts.heading1};
   text-align: center;
   margin-top: ${({ theme }) => theme.spacing.mplus};
-`;
-
-const OutermostPadding = styled.View`
-  padding: ${({ theme }) => theme.spacing.xl};
-  height: 100%;
-  width: 100%;
 `;
 
 export const MainNavigator: FC = () => {
@@ -46,9 +40,8 @@ export const MainNavigator: FC = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        sceneContainerStyle={{ padding: 12 }}
+        sceneContainerStyle={{ padding: 12, paddingBottom: 0 }}
         screenOptions={({ route }) => ({
-          headerShown: false,
           tabBarStyle: {
             backgroundColor: theme.colors.background,
             justifyContent: "center",
@@ -56,7 +49,7 @@ export const MainNavigator: FC = () => {
           },
           tabBarHideOnKeyboard: true,
           tabBarShowLabel: false,
-          tabBarLabel: () => {
+          header: () => {
             if (route.name === "Welcome") return <Title>Trackers</Title>;
             if (route.name === "AddTracker") return <Title>Add tracker</Title>;
             if (route.name === "Settings") return <Title>Settings</Title>;
@@ -82,7 +75,7 @@ export const MainNavigator: FC = () => {
               );
           },
         })}
-        initialRouteName="Welcome"
+        initialRouteName="AddTracker"
       >
         <Tab.Screen name="Welcome" component={WelcomeScreen} />
         <Tab.Screen name="AddTracker" component={AddTrackerScreen} />

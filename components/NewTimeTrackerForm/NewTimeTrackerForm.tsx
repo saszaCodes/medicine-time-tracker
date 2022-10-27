@@ -1,13 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 import { useForm, Controller, FieldValues } from "react-hook-form";
-import { Button } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import {
   getInitialTrackerData,
   useTimeTrackerContext,
 } from "../../contexts/TimeTrackerContext";
 import { Tracker } from "../../types/types";
-import { TextInput } from "../FormElements";
+import { Button, TextInput } from "../FormElements";
 import { DatePicker } from "./components/DatePicker";
 import { Reminders } from "./components/Reminders";
 
@@ -68,14 +68,9 @@ export const NewTimeTrackerForm = ({
     clearDraft();
   };
 
-  const value = watch("finishDate");
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
-
   //  Return a form consisting of controlled elements
   return (
-    <>
+    <ScrollView>
       {display.name && (
         <Controller
           name="name"
@@ -85,6 +80,7 @@ export const NewTimeTrackerForm = ({
             <TextInput
               value={value}
               onChangeText={onChange}
+              label="Name"
               placeholder="Name"
             />
           )}
@@ -99,6 +95,7 @@ export const NewTimeTrackerForm = ({
               multiline
               value={value}
               onChangeText={onChange}
+              label="Description"
               placeholder="Description"
             />
           )}
@@ -125,6 +122,6 @@ export const NewTimeTrackerForm = ({
         </>
       )}
       <Button onPress={handleSubmit(onSubmit)} title="Save" />
-    </>
+    </ScrollView>
   );
 };

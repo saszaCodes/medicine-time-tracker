@@ -1,8 +1,10 @@
-import { Text } from "react-native";
+import { Text, View } from "react-native";
 import {
   AndroidNativeProps,
   DateTimePickerAndroid,
 } from "@react-native-community/datetimepicker";
+import styled from "styled-components/native";
+import { FormItemWrapper } from "../../FormElements";
 
 export {};
 
@@ -37,16 +39,30 @@ export const DatePicker = (props: DatePickerProps) => {
     });
   };
 
+  const Container = styled.View`
+    flex-direction: row;
+  `;
+
+  const Text = styled.Text`
+    font: ${({ theme }) => theme.fonts.regular};
+    background-color: ${({ theme }) => theme.colors.backgroundSecondary};
+    padding: ${({ theme }) => theme.spacing.s} ${({ theme }) => theme.spacing.l};
+    border-radius: ${({ theme }) => theme.borderRadi.regular};
+    // TODO: remove right margin from last item
+    margin-right: ${({ theme }) => theme.spacing.mplus};
+    // TODO: add inset shadow
+  `;
+
   return (
-    <>
-      <Text
-        style={{ fontSize: 40 }}
-        onPress={() => openPicker({ mode: "date" })}
-      >{`${day}/${month}/${year}`}</Text>
-      <Text
-        style={{ fontSize: 40 }}
-        onPress={() => openPicker({ mode: "time" })}
-      >{`${hour}:${minutes < 10 ? 0 : ""}${minutes}`}</Text>
-    </>
+    <FormItemWrapper label="Finish date">
+      <Container>
+        <Text
+          onPress={() => openPicker({ mode: "date" })}
+        >{`${day}/${month}/${year}`}</Text>
+        <Text onPress={() => openPicker({ mode: "time" })}>{`${hour}:${
+          minutes < 10 ? 0 : ""
+        }${minutes}`}</Text>
+      </Container>
+    </FormItemWrapper>
   );
 };

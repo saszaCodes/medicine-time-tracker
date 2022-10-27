@@ -3,10 +3,46 @@ import {
   PickerProps,
   PickerItemProps,
 } from "@react-native-picker/picker";
-import { TextInput as NativeTextInput, TextInputProps } from "react-native";
+import { PropsWithChildren } from "react";
+import { ButtonProps, PressableProps, TextInputProps } from "react-native";
+import styled from "styled-components/native";
 
-export const TextInput = (props: TextInputProps) => (
-  <NativeTextInput {...props} />
+const FormItemContainer = styled.View`
+  margin-top: ${({ theme }) => theme.spacing.xxxl};
+`;
+const FormItemlabelContainer = styled.View`
+  margin-bottom: ${({ theme }) => theme.spacing.mplus};
+`;
+const FormItemLabel = styled.Text`
+  font: ${({ theme }) => theme.fonts.subheading2};
+`;
+export const FormItemWrapper = (
+  props: PropsWithChildren<{ label?: string }>
+) => (
+  <FormItemContainer>
+    {props.label && (
+      <FormItemlabelContainer>
+        <FormItemLabel>{props.label}</FormItemLabel>
+      </FormItemlabelContainer>
+    )}
+    {props.children}
+  </FormItemContainer>
+);
+
+const Input = styled.TextInput`
+  font: ${({ theme }) => theme.fonts.regular};
+  background-color: ${({ theme }) => theme.colors.backgroundSecondary};
+  padding: ${({ theme }) => theme.spacing.s} ${({ theme }) => theme.spacing.l};
+  border-radius: ${({ theme }) => theme.borderRadi.regular};
+  // TODO: add inset shadow
+`;
+export const TextInput = ({
+  label,
+  ...props
+}: TextInputProps & { label?: string }) => (
+  <FormItemWrapper {...{ label }}>
+    <Input {...props} />
+  </FormItemWrapper>
 );
 
 type PicklistPropsType<T> = PickerProps & {
@@ -23,5 +59,32 @@ export const Picklist: <T = any>(props: PicklistPropsType<T>) => JSX.Element = (
   </Picker>
 );
 
-// TODO: Defince checkbox
-export const Checkbox = null;
+const ButtonContainer = styled.View`
+  flex-direction: row;
+  margin-bottom: ${({ theme }) => theme.spacing.mplus};
+  padding: ${({ theme }) => theme.spacing.m};
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.primary};
+  // TODO: make button not 100% wide
+  border-radius: ${({ theme }) => theme.borderRadi.regular};
+`;
+
+const StyledButton = styled.Pressable`
+  font: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.text};
+  flex-direction: row;
+`;
+
+const ButtonText = styled.Text``;
+
+export const Button = (
+  props: Pick<PressableProps, "onPress"> & { title: string }
+) => (
+  <FormItemWrapper>
+    <ButtonContainer>
+      <StyledButton onPress={props.onPress}>
+        <ButtonText>{props.title}</ButtonText>
+      </StyledButton>
+    </ButtonContainer>
+  </FormItemWrapper>
+);
