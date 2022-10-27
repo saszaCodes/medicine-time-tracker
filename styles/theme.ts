@@ -23,6 +23,7 @@ const fonts = {
   bold: `600 12px ${fontFamily}`,
   heading1: `400 24px ${fontFamily}`,
   subheading1: `400 18px ${fontFamily}`,
+  subheading2: `400 15px ${fontFamily}`,
 } as const;
 
 const borderRadi = {

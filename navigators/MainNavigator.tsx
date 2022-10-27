@@ -34,9 +34,11 @@ const Title = styled.Text`
   margin-top: ${({ theme }) => theme.spacing.mplus};
 `;
 
-const MenuIcon = (p: MenuIconProps) => (
-  <IconContainer focused={p.focused}>{p.icon}</IconContainer>
-);
+const OutermostPadding = styled.View`
+  padding: ${({ theme }) => theme.spacing.xl};
+  height: 100%;
+  width: 100%;
+`;
 
 export const MainNavigator: FC = () => {
   const theme = useTheme();
@@ -44,7 +46,9 @@ export const MainNavigator: FC = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
+        sceneContainerStyle={{ padding: 12 }}
         screenOptions={({ route }) => ({
+          headerShown: false,
           tabBarStyle: {
             backgroundColor: theme.colors.background,
             justifyContent: "center",

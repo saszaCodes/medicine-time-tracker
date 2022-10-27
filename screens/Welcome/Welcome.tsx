@@ -6,6 +6,12 @@ import { useTimeTrackerContext } from "../../contexts/TimeTrackerContext";
 import { MainNavigatorParams, Tracker } from "../../types/types";
 import moment from "moment";
 import { TrackerCard } from "./components/TrackerCard";
+import styled from "styled-components/native";
+
+const Title = styled.Text`
+  font: ${({ theme }) => theme.fonts.subheading2};
+  margin-top: ${({ theme }) => theme.spacing.xxxl};
+`;
 
 // TODO: fix type
 export const WelcomeScreen = ({
@@ -36,12 +42,12 @@ export const WelcomeScreen = ({
 
   return (
     <ScrollView>
-      <Text>Today</Text>
+      <Title>Today</Title>
       {generateTrackers({
         startDate: moment().valueOf(),
         endDate: moment().endOf("day").valueOf(),
       })}
-      <Text>Tommorow</Text>
+      <Title>Tommorow</Title>
       {generateTrackers({
         startDate: moment().add(1, "days").startOf("day").valueOf(),
         endDate: moment().add(1, "days").endOf("day").valueOf(),
