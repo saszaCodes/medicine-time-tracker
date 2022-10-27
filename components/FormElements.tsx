@@ -62,17 +62,16 @@ export const Picklist: <T = any>(props: PicklistPropsType<T>) => JSX.Element = (
 const ButtonContainer = styled.View`
   flex-direction: row;
   margin-bottom: ${({ theme }) => theme.spacing.mplus};
-  padding: ${({ theme }) => theme.spacing.m};
   justify-content: center;
-  background-color: ${({ theme }) => theme.colors.primary};
   // TODO: make button not 100% wide
-  border-radius: ${({ theme }) => theme.borderRadi.regular};
 `;
 
 const StyledButton = styled.Pressable`
   font: ${({ theme }) => theme.fonts.regular};
   color: ${({ theme }) => theme.colors.text};
-  flex-direction: row;
+  background-color: ${({ theme }) => theme.colors.primary};
+  border-radius: ${({ theme }) => theme.borderRadi.regular};
+  padding: ${({ theme }) => theme.spacing.m} ${({ theme }) => theme.spacing.l};
 `;
 
 const ButtonText = styled.Text``;
