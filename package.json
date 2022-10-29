@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest",
+    "test": "jest --coverage",
+    "test-with-badges": "yarn run test && jest-coverage-badges",
     "develop": "yarn run test --watchAll",
     "test-push": "yarn run test && git push"
   },
@@ -15,6 +16,9 @@
     "preset": "jest-expo",
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
+    ],
+    "coverageReporters": [
+      "json-summary"
     ]
   },
   "dependencies": {
@@ -62,6 +66,7 @@
     "@types/react-native": "~0.69.1",
     "@types/styled-components": "^5.1.26",
     "@types/styled-components-react-native": "^5.1.3",
+    "jest-coverage-badges": "^1.1.2",
     "typescript": "~4.3.5"
   },
   "private": true
