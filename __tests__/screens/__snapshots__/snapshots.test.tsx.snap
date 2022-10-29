@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot matches:  WelcomeScreen 1`] = `
+<Text>
+  My app
+</Text>
+`;
