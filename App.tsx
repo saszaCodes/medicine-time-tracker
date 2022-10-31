@@ -8,14 +8,13 @@ import { theme } from "./styles/theme";
 export const Contexts = ({ children }: PropsWithChildren) => (
   <SettingsProvider>
     <TimeTrackerProvider>
-      <ThemeProvider theme={theme}>
-        <MainNavigator />
-      </ThemeProvider>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </TimeTrackerProvider>
   </SettingsProvider>
 );
 
 export default function App() {
+  console.log((<Contexts />).type);
   return (
     <Contexts>
       <MainNavigator />

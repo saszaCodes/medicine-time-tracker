@@ -1,7 +1,886 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Snapshot matches:  AddTrackerScreen 1`] = `
+<RCTScrollView
+  collapsable={false}
+  handlerTag={2}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
+>
+  <View>
+    <View
+      style={
+        Array [
+          Object {
+            "marginTop": 40,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "marginBottom": 16,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto",
+                "fontSize": 15,
+                "fontStyle": "normal",
+                "fontVariant": Array [],
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          Name
+        </Text>
+      </View>
+      <TextInput
+        onChangeText={[Function]}
+        placeholder="Name"
+        style={
+          Array [
+            Object {
+              "//": "add inset shadow",
+              "backgroundColor": "#DCDCDC",
+              "borderRadius": 25,
+              "fontFamily": "Roboto",
+              "fontSize": 12,
+              "fontStyle": "normal",
+              "fontVariant": Array [],
+              "fontWeight": "400",
+              "paddingBottom": 8,
+              "paddingLeft": 20,
+              "paddingRight": 20,
+              "paddingTop": 8,
+            },
+          ]
+        }
+        value=""
+      />
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "marginTop": 40,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "marginBottom": 16,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto",
+                "fontSize": 15,
+                "fontStyle": "normal",
+                "fontVariant": Array [],
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          Description
+        </Text>
+      </View>
+      <TextInput
+        multiline={true}
+        onChangeText={[Function]}
+        placeholder="Description"
+        style={
+          Array [
+            Object {
+              "//": "add inset shadow",
+              "backgroundColor": "#DCDCDC",
+              "borderRadius": 25,
+              "fontFamily": "Roboto",
+              "fontSize": 12,
+              "fontStyle": "normal",
+              "fontVariant": Array [],
+              "fontWeight": "400",
+              "paddingBottom": 8,
+              "paddingLeft": 20,
+              "paddingRight": 20,
+              "paddingTop": 8,
+            },
+          ]
+        }
+      />
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "marginTop": 40,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "marginBottom": 16,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto",
+                "fontSize": 15,
+                "fontStyle": "normal",
+                "fontVariant": Array [],
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          Reminders
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "//": "remove margin from last element",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "marginBottom": 16,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityRole="checkbox"
+          accessibilityState={
+            Object {
+              "checked": false,
+              "disabled": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "borderColor": "#657786",
+                "borderRadius": 2,
+                "borderWidth": 2,
+                "height": 20,
+                "width": 20,
+              },
+              Array [
+                Object {
+                  "//": "fix checkbox fill",
+                  "borderColor": "#434343",
+                  "borderRadius": 1000,
+                  "height": 20,
+                  "marginRight": 12,
+                  "width": 20,
+                },
+              ],
+              false,
+              false,
+              undefined,
+              false,
+            ]
+          }
+        />
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto",
+                "fontSize": 12,
+                "fontStyle": "normal",
+                "fontVariant": Array [],
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          15 minutes before
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "//": "remove margin from last element",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "marginBottom": 16,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityRole="checkbox"
+          accessibilityState={
+            Object {
+              "checked": false,
+              "disabled": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "borderColor": "#657786",
+                "borderRadius": 2,
+                "borderWidth": 2,
+                "height": 20,
+                "width": 20,
+              },
+              Array [
+                Object {
+                  "//": "fix checkbox fill",
+                  "borderColor": "#434343",
+                  "borderRadius": 1000,
+                  "height": 20,
+                  "marginRight": 12,
+                  "width": 20,
+                },
+              ],
+              false,
+              false,
+              undefined,
+              false,
+            ]
+          }
+        />
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto",
+                "fontSize": 12,
+                "fontStyle": "normal",
+                "fontVariant": Array [],
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          30 minutes before
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "//": "remove margin from last element",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "marginBottom": 16,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityRole="checkbox"
+          accessibilityState={
+            Object {
+              "checked": false,
+              "disabled": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "borderColor": "#657786",
+                "borderRadius": 2,
+                "borderWidth": 2,
+                "height": 20,
+                "width": 20,
+              },
+              Array [
+                Object {
+                  "//": "fix checkbox fill",
+                  "borderColor": "#434343",
+                  "borderRadius": 1000,
+                  "height": 20,
+                  "marginRight": 12,
+                  "width": 20,
+                },
+              ],
+              false,
+              false,
+              undefined,
+              false,
+            ]
+          }
+        />
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto",
+                "fontSize": 12,
+                "fontStyle": "normal",
+                "fontVariant": Array [],
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          1 hour before
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "//": "remove margin from last element",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "marginBottom": 16,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityRole="checkbox"
+          accessibilityState={
+            Object {
+              "checked": false,
+              "disabled": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "borderColor": "#657786",
+                "borderRadius": 2,
+                "borderWidth": 2,
+                "height": 20,
+                "width": 20,
+              },
+              Array [
+                Object {
+                  "//": "fix checkbox fill",
+                  "borderColor": "#434343",
+                  "borderRadius": 1000,
+                  "height": 20,
+                  "marginRight": 12,
+                  "width": 20,
+                },
+              ],
+              false,
+              false,
+              undefined,
+              false,
+            ]
+          }
+        />
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto",
+                "fontSize": 12,
+                "fontStyle": "normal",
+                "fontVariant": Array [],
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          3 hours before
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "//": "remove margin from last element",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "marginBottom": 16,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityRole="checkbox"
+          accessibilityState={
+            Object {
+              "checked": false,
+              "disabled": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "borderColor": "#657786",
+                "borderRadius": 2,
+                "borderWidth": 2,
+                "height": 20,
+                "width": 20,
+              },
+              Array [
+                Object {
+                  "//": "fix checkbox fill",
+                  "borderColor": "#434343",
+                  "borderRadius": 1000,
+                  "height": 20,
+                  "marginRight": 12,
+                  "width": 20,
+                },
+              ],
+              false,
+              false,
+              undefined,
+              false,
+            ]
+          }
+        />
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto",
+                "fontSize": 12,
+                "fontStyle": "normal",
+                "fontVariant": Array [],
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          1 day before
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "//": "remove margin from last element",
+              "alignItems": "center",
+              "flexDirection": "row",
+              "marginBottom": 16,
+            },
+          ]
+        }
+      >
+        <View
+          accessibilityRole="checkbox"
+          accessibilityState={
+            Object {
+              "checked": false,
+              "disabled": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "borderColor": "#657786",
+                "borderRadius": 2,
+                "borderWidth": 2,
+                "height": 20,
+                "width": 20,
+              },
+              Array [
+                Object {
+                  "//": "fix checkbox fill",
+                  "borderColor": "#434343",
+                  "borderRadius": 1000,
+                  "height": 20,
+                  "marginRight": 12,
+                  "width": 20,
+                },
+              ],
+              false,
+              false,
+              undefined,
+              false,
+            ]
+          }
+        />
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto",
+                "fontSize": 12,
+                "fontStyle": "normal",
+                "fontVariant": Array [],
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          3 days before
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "marginTop": 40,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "marginBottom": 16,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto",
+                "fontSize": 15,
+                "fontStyle": "normal",
+                "fontVariant": Array [],
+                "fontWeight": "400",
+              },
+            ]
+          }
+        >
+          Finish date
+        </Text>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+          ]
+        }
+      >
+        <Text
+          onPress={[Function]}
+          style={
+            Array [
+              Object {
+                "//": "add inset shadow",
+                "backgroundColor": "#DCDCDC",
+                "borderRadius": 25,
+                "fontFamily": "Roboto",
+                "fontSize": 12,
+                "fontStyle": "normal",
+                "fontVariant": Array [],
+                "fontWeight": "400",
+                "marginRight": 16,
+                "paddingBottom": 8,
+                "paddingLeft": 20,
+                "paddingRight": 20,
+                "paddingTop": 8,
+              },
+            ]
+          }
+        >
+          1/10/2022
+        </Text>
+        <Text
+          onPress={[Function]}
+          style={
+            Array [
+              Object {
+                "//": "add inset shadow",
+                "backgroundColor": "#DCDCDC",
+                "borderRadius": 25,
+                "fontFamily": "Roboto",
+                "fontSize": 12,
+                "fontStyle": "normal",
+                "fontVariant": Array [],
+                "fontWeight": "400",
+                "marginRight": 16,
+                "paddingBottom": 8,
+                "paddingLeft": 20,
+                "paddingRight": 20,
+                "paddingTop": 8,
+              },
+            ]
+          }
+        >
+          15:11
+        </Text>
+      </View>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "marginTop": 40,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "//": "make button not 100% wide",
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "marginBottom": 16,
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#B2CFE9",
+                "borderRadius": 25,
+                "color": "#434343",
+                "fontFamily": "Roboto",
+                "fontSize": 12,
+                "fontStyle": "normal",
+                "fontVariant": Array [],
+                "fontWeight": "400",
+                "paddingBottom": 12,
+                "paddingLeft": 20,
+                "paddingRight": 20,
+                "paddingTop": 12,
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {},
+              ]
+            }
+          >
+            Save
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;
+
+exports[`Snapshot matches:  SettingsScreen 1`] = `null`;
+
+exports[`Snapshot matches:  TrackerCard 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "//": "get shadow working",
+        "alignItems": "center",
+        "backgroundColor": "#DCDCDC",
+        "borderRadius": 25,
+        "flexDirection": "row",
+        "marginTop": 16,
+        "minHeight": 80,
+        "paddingBottom": 12,
+        "paddingLeft": 12,
+        "paddingRight": 12,
+        "paddingTop": 12,
+        "shadowColor": "#000000",
+        "shadowOffset": Object {
+          "height": 4,
+          "width": 5,
+        },
+        "shadowOpacity": 1,
+        "shadowRadius": 0,
+      },
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "marginRight": 20,
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "Roboto",
+            "fontSize": 18,
+            "fontStyle": "normal",
+            "fontVariant": Array [],
+            "fontWeight": "800",
+          },
+        ]
+      }
+    >
+       09:09
+    </Text>
+  </View>
+  <View>
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "Roboto",
+            "fontSize": 18,
+            "fontStyle": "normal",
+            "fontVariant": Array [],
+            "fontWeight": "800",
+          },
+        ]
+      }
+    >
+      TEST9
+    </Text>
+  </View>
+</View>
+`;
+
 exports[`Snapshot matches:  WelcomeScreen 1`] = `
-<Text>
-  My app
-</Text>
+<RCTScrollView
+  collapsable={false}
+  handlerTag={1}
+  handlerType="NativeViewGestureHandler"
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
+>
+  <View>
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "Roboto",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontVariant": Array [],
+            "fontWeight": "400",
+            "marginTop": 40,
+          },
+        ]
+      }
+    >
+      Today
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "Roboto",
+            "fontSize": 15,
+            "fontStyle": "normal",
+            "fontVariant": Array [],
+            "fontWeight": "400",
+            "marginTop": 40,
+          },
+        ]
+      }
+    >
+      Tommorow
+    </Text>
+  </View>
+</RCTScrollView>
 `;
